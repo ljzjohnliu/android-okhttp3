@@ -25,6 +25,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "MainActivity";
     private OkHttpClient mOkHttpClient;
     private Button bt_send;
     private Button bt_postsend;
@@ -99,11 +100,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(Call call, Response response) throws IOException {
                 if (null != response.cacheResponse()) {
                     String str = response.cacheResponse().toString();
-                    Log.i("wangshu", "cache---" + str);
+                    Log.i(TAG, "cache---" + str);
                 } else {
                     response.body().string();
                     String str = response.networkResponse().toString();
-                    Log.i("wangshu", "network---" + str);
+                    Log.i(TAG, "network---" + str);
                 }
                 runOnUiThread(new Runnable() {
                     @Override
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String str = response.body().string();
-                Log.i("wangshu", str);
+                Log.i(TAG, str);
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -166,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.i("wangshu", response.body().string());
+                Log.i(TAG, response.body().string());
             }
         });
     }
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 异步下载文件
      */
     private void downAsynFile() {
-        String url = "http://img.my.csdn.net/uploads/201603/26/1458988468_5804.jpg";
+        String url = "http://10.5.174.125/123.txt";//http://img.my.csdn.net/uploads/201603/26/1458988468_5804.jpg";
         Request request = new Request.Builder().url(url).build();
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -189,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 InputStream inputStream = response.body().byteStream();
                 FileOutputStream fileOutputStream = null;
                 try {
-                    fileOutputStream = new FileOutputStream(new File("/sdcard/wangshu.jpg"));
+                    fileOutputStream = new FileOutputStream(new File("/sdcard/123.txt"));
                     byte[] buffer = new byte[2048];
                     int len = 0;
                     while ((len = inputStream.read(buffer)) != -1) {
@@ -197,11 +198,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     fileOutputStream.flush();
                 } catch (IOException e) {
-                    Log.i("wangshu", "IOException");
+                    Log.i(TAG, "IOException");
                     e.printStackTrace();
                 }
 
-                Log.d("wangshu", "文件下载成功");
+                Log.d(TAG, "文件下载成功");
             }
         });
     }
@@ -228,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.i("wangshu", response.body().string());
+                Log.i(TAG, response.body().string());
             }
         });
     }
